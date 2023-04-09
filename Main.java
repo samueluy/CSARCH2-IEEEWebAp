@@ -34,26 +34,48 @@ public class Main{
                                 break;
                 }
 
-                // generate new string
-                newBinary.deleteCharAt(radixLoc); // delete radix point
-                if(oneLoc > 0){
-                        if(radixLoc<oneLoc)
-                                newBinary.delete(0, oneLoc-1); // trim zeroes at the start
-                        else
-                                newBinary.delete(0, oneLoc); // trim zeroes at the start
+                if(binary.charAt(0) == '-'){ // if value is negative
+                        newBinary.deleteCharAt(radixLoc);
+                        if(oneLoc > 0){
+                                if(radixLoc<oneLoc)
+                                        newBinary.delete(1, oneLoc-1); // trim zeroes at the start
+                                else
+                                        newBinary.delete(1, oneLoc); // trim zeroes at the start
+                        }
+                        newBinary.insert(2,'.'); // add radix point after first 1
 
+                        // modify exponent value
+                        if(radixLoc < oneLoc)
+                                binExponent = binExponent+(oneLoc-radixLoc);
+                        else if (oneLoc < radixLoc)
+                                binExponent = binExponent-((radixLoc-1)-oneLoc);
+
+                        // delete
+                        System.out.println(newBinary + " " + binExponent);
+                }
+                else{
+                        // generate new string
+                        newBinary.deleteCharAt(radixLoc); // delete radix point
+                        if(oneLoc > 0){
+                                if(radixLoc<oneLoc)
+                                        newBinary.delete(0, oneLoc-1); // trim zeroes at the start
+                                else
+                                        newBinary.delete(0, oneLoc); // trim zeroes at the start
+
+                        }
+
+                        newBinary.insert(1,'.'); // add radix point after first 1
+
+                        // modify exponent value
+                        if(radixLoc < oneLoc)
+                                binExponent = binExponent+(oneLoc-radixLoc);
+                        else if (oneLoc < radixLoc)
+                                binExponent = binExponent-((radixLoc-1)-oneLoc);
+
+                        // delete
+                        System.out.println(newBinary + " " + binExponent);
                 }
 
-                newBinary.insert(1,'.'); // add radix point after first 1
-
-                // modify exponent value
-                if(radixLoc < oneLoc)
-                        binExponent = binExponent+(oneLoc-radixLoc);
-                else if (oneLoc < radixLoc)
-                        binExponent = binExponent-((radixLoc-1)-oneLoc);
-
-                // delete
-                System.out.println(newBinary + " " + binExponent);
         }
 
         public static void main(String[] args){
