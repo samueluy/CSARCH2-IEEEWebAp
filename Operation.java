@@ -6,20 +6,6 @@ public class Operation {
     private boolean overflow;
     private boolean signed;
 
-    public Operation(StringBuilder firstOperand, StringBuilder secondOperand, boolean grs, int digits) {
-        this.firstOperand   = firstOperand.toString();
-        this.secondOperand  = secondOperand.toString();
-
-        if (!grs) { this.digits = digits + 1; }
-        else { this.digits      = (digits + 3) + 1; }
-        
-        this.sum            = new char[this.digits + 1]; 
-        this.overflow       = false;
-        this.signed         = false;
-
-        for (int x = 0; x < this.digits + 1; x++) { this.sum[x] = ' '; }
-    }
-
     public Operation(String firstOperand, String secondOperand, boolean grs, int digits) {
         this.firstOperand   = firstOperand;
         this.secondOperand  = secondOperand;
@@ -70,7 +56,7 @@ public class Operation {
         if (this.overflow && !this.signed) { this.sum[0] = '1'; }
     }
 
-    public char[] getSum(){ return this.sum; }
+    public String getSum(){ return String.valueOf(this.sum); }
 
     private char[] performComplement(String negative) {
         char[] positive  = new char[this.digits];

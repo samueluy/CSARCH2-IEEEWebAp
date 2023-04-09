@@ -3,6 +3,7 @@ public class InitialNormalize {
     private int exponentOne;
     private String operandTwo;
     private int exponentTwo;
+    private int exponent;
     private boolean grs;
     private int digits;
 
@@ -11,6 +12,7 @@ public class InitialNormalize {
         this.exponentOne = exponentOne;
         this.operandTwo  = operandTwo;
         this.exponentTwo = exponentTwo;
+        this.exponent    = exponentOne;
         this.grs         = grs;
         this.digits      = digits + 1;
     }
@@ -31,6 +33,7 @@ public class InitialNormalize {
                 z++;
             }
 
+            this.exponent = this.exponentOne;
             this.operandTwo = String.valueOf(normalizedOperand);
         } else if (this.exponentOne < this.exponentTwo) {
             char[] normalizedOperand = new char[this.operandOne.length() + (this.exponentTwo - this.exponentOne)];
@@ -47,8 +50,9 @@ public class InitialNormalize {
                 z++;
             }
 
+            this.exponent = this.exponentTwo;
             this.operandOne = String.valueOf(normalizedOperand);
-        }
+        } else { this.exponent = this.exponentTwo; }
     }
 
     public void performRound() {
@@ -63,9 +67,9 @@ public class InitialNormalize {
                 x++;
             }
 
-            if (this.operandOne.charAt(x) != '\0') { if (this.operandOne.charAt(x) == '1') { roundedOperandOne = roundUp(roundedOperandOne); } }
+            if (this.operandOne.length() > x) { if (this.operandOne.charAt(x) == '1') { roundedOperandOne = roundUp(roundedOperandOne); } }
 
-            if (this.operandTwo.charAt(x) != '\0') { if (this.operandTwo.charAt(x) == '1') { roundedOperandTwo = roundUp(roundedOperandTwo); } }
+            if (this.operandOne.length() > x) { if (this.operandTwo.charAt(x) == '1') { roundedOperandTwo = roundUp(roundedOperandTwo); } }
 
             this.operandOne = String.valueOf(roundedOperandOne);
             this.operandTwo = String.valueOf(roundedOperandTwo);
@@ -91,6 +95,8 @@ public class InitialNormalize {
     public String getFirstOperand() { return this.operandOne; }
 
     public String getSecondOperand() { return this.operandTwo; }
+
+    public int getExponent() { return this.exponent; }
 
     private char[] roundUp(char[] roundedOperand) {
         boolean overflow = true;
