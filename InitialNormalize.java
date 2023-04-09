@@ -6,14 +6,13 @@ public class InitialNormalize {
     private boolean grs;
     private int digits;
 
-    public InitialNormalize(String operandOne, int exponentOne, String operandTwo, int exponentTwo, boolean grs,
-            int digits) {
-        this.operandOne = operandOne;
+    public InitialNormalize(String operandOne, int exponentOne, String operandTwo, int exponentTwo, boolean grs, int digits) {
+        this.operandOne  = operandOne;
         this.exponentOne = exponentOne;
-        this.operandTwo = operandTwo;
+        this.operandTwo  = operandTwo;
         this.exponentTwo = exponentTwo;
-        this.grs = grs;
-        this.digits = digits;
+        this.grs         = grs;
+        this.digits      = digits;
     }
 
     public void shift() {
@@ -22,20 +21,13 @@ public class InitialNormalize {
             int z = 0;
 
             for (int x = 0; x < this.operandTwo.length() + (this.exponentOne - this.exponentTwo); x++) {
-                if (x != 1) {
-                    normalizedOperand[x] = '0';
-                } else {
-                    normalizedOperand[x] = '.';
-                }
+                if (x != 1) { normalizedOperand[x] = '0'; } 
+                else { normalizedOperand[x] = '.'; }
             }
 
-            for (int y = (this.exponentOne - this.exponentTwo) + 1; y < this.operandTwo.length()
-                    + (this.exponentOne - this.exponentTwo); y++) {
-                if (this.operandTwo.charAt(z) != '.') {
-                    normalizedOperand[y] = this.operandTwo.charAt(z);
-                } else {
-                    y--;
-                }
+            for (int y = (this.exponentOne - this.exponentTwo) + 1; y < this.operandTwo.length() + (this.exponentOne - this.exponentTwo); y++) {
+                if (this.operandTwo.charAt(z) != '.') { normalizedOperand[y] = this.operandTwo.charAt(z); }
+                else { y--; }
                 z++;
             }
 
@@ -45,20 +37,13 @@ public class InitialNormalize {
             int z = 0;
 
             for (int x = 0; x < this.operandOne.length() + (this.exponentTwo - this.exponentOne); x++) {
-                if (x != 1) {
-                    normalizedOperand[x] = '0';
-                } else {
-                    normalizedOperand[x] = '.';
-                }
+                if (x != 1) { normalizedOperand[x] = '0'; } 
+                else { normalizedOperand[x] = '.'; }
             }
 
-            for (int y = (this.exponentTwo - this.exponentOne) + 1; y < this.operandOne.length()
-                    + (this.exponentTwo - this.exponentOne); y++) {
-                if (this.operandOne.charAt(z) != '.') {
-                    normalizedOperand[y] = this.operandOne.charAt(z);
-                } else {
-                    y--;
-                }
+            for (int y = (this.exponentTwo - this.exponentOne) + 1; y < this.operandOne.length() + (this.exponentTwo - this.exponentOne); y++) {
+                if (this.operandOne.charAt(z) != '.') { normalizedOperand[y] = this.operandOne.charAt(z); } 
+                else { y--; }
                 z++;
             }
 
@@ -68,44 +53,42 @@ public class InitialNormalize {
 
     public void round() {
         if (!this.grs) {
-            char[] roundedOperandOne = new char[digits + 1];
-            char[] roundedOperandTwo = new char[digits + 1];
+            char[] roundedOperandOne = new char[this.digits + 1];
+            char[] roundedOperandTwo = new char[this.digits + 1];
             int x = 0;
 
             for (x = 0; x < digits + 1; x++) {
-                roundedOperandOne[x] = operandOne.charAt(x);
-                roundedOperandTwo[x] = operandTwo.charAt(x);
+                roundedOperandOne[x] = this.operandOne.charAt(x);
+                roundedOperandTwo[x] = this.operandTwo.charAt(x);
             }
 
-            if (operandOne.charAt(x) != '\0') {
-                if (operandOne.charAt(x) == '1') {
-                    up();
-                }
-            }
+            if (this.operandOne.charAt(x) != '\0') { if (this.operandOne.charAt(x) == '1') { roundedOperandOne = roundUp(roundedOperandOne); } }
 
-            if (operandTwo.charAt(x) != '\0') {
-                if (operandTwo.charAt(x) == '1') {
-                    up();
-                }
-            }
+            if (this.operandTwo.charAt(x) != '\0') { if (this.operandTwo.charAt(x) == '1') { roundedOperandTwo = roundUp(roundedOperandTwo); } }
 
-            operandOne = String.valueOf(roundedOperandOne);
-            operandTwo = String.valueOf(roundedOperandTwo);
+            this.operandOne = String.valueOf(roundedOperandOne);
+            this.operandTwo = String.valueOf(roundedOperandTwo);
         } else {
         }
     }
 
-    private void up() {
-        
+    private char[] roundUp(char[] roundedOperand) {
+        boolean overflow = true;
+
+        for (int x = this.digits; x > 0 && overflow; x--) {
+            if (roundedOperand[x] == '1' && overflow) { roundedOperand[x] = '0'; } 
+            else if (roundedOperand[x] == '0' && overflow){
+                roundedOperand[x] = '1';
+                overflow = false;
+            }
+        }
+
+        return roundedOperand;
     }
 
-    public String getFirstOperand() {
-        return this.operandOne;
-    }
+    public String getFirstOperand() { return this.operandOne; }
 
-    public String getSecondOperand() {
-        return this.operandTwo;
-    }
+    public String getSecondOperand() { return this.operandTwo; }
 
     public static void main(String[] args) {
         InitialNormalize initialNormalize = new InitialNormalize("1.00111101", 5, "1.00111101", 3, false, 5);
