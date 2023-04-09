@@ -14,7 +14,7 @@ public class Operation {
         this.overflow       = false;
         this.signed         = false;
 
-        for (int x = 0; x < this.digits + 1; x++) { sum[x] = ' '; }
+        for (int x = 0; x < this.digits + 1; x++) { this.sum[x] = ' '; }
     }
 
     public Operation(String firstOperand, String secondOperand, int digits) {
@@ -25,11 +25,11 @@ public class Operation {
         this.overflow       = false;
         this.signed         = false;
 
-        for (int x = 0; x < this.digits + 1; x++) { sum[x] = ' '; }
+        for (int x = 0; x < this.digits + 1; x++) { this.sum[x] = ' '; }
     }
 
     public char[] performComplement(String negative) {
-        char[] positive = new char[this.digits];
+        char[] positive  = new char[this.digits];
         boolean firstOne = false;
 
         for (int x = 0; x < this.digits; x++) { positive[x] = ' '; }
@@ -50,11 +50,11 @@ public class Operation {
 
     public void performAddition() {
         if (this.firstOperand.charAt(0) == '-') {
-            firstOperand = String.valueOf(performComplement(firstOperand));
-            this.signed = true;
+            this.firstOperand = String.valueOf(performComplement(this.firstOperand));
+            this.signed  = true;
         } else if (this.secondOperand.charAt(0) == '-') {
-            secondOperand = String.valueOf(performComplement(secondOperand));
-            this.signed = true;
+            this.secondOperand = String.valueOf(performComplement(this.secondOperand));
+            this.signed   = true;
         }
 
         for (int x = this.digits - 1; x >= 0; x--) {
@@ -81,10 +81,10 @@ public class Operation {
             } else { this.sum[x + 1] = '.'; }
         }
 
-        if (overflow && !this.signed) { sum[0] = '1'; }
+        if (this.overflow && !this.signed) { this.sum[0] = '1'; }
     }
 
-    public char[] getSum(){ return sum; }
+    public char[] getSum(){ return this.sum; }
 
     public static void main(String[] args) {
         Operation operationW = new Operation("1.0100", "0.0101", 5);                // Without GRS
