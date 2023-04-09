@@ -1,27 +1,30 @@
 public class _test {
     public static void main(String[] args){
-        String operandOne = "1.0111110010011";
-        int exponentOne = 5;
-        String operandTwo = "1.00111111100011";
-        int exponentTwo = 3;
-        boolean grs = true;
-        int digits = 9;
+        String operandOne = "1.000";    int exponentOne = -1;
+        String operandTwo = "-1.110";   int exponentTwo = -2;
+        boolean grs = false;            int digits = 4;
+
+        /* Use @Samuel Uy's Normalization here if operands are crazy like 1000.1111 and not in 1.f */
 
         InitialNormalize initialNormalize = new InitialNormalize(operandOne, exponentOne, operandTwo, exponentTwo, grs, digits);
         initialNormalize.performShift();
         initialNormalize.performRound();
+        initialNormalize.performNegative();
 
-        System.out.println(" " + initialNormalize.getFirstOperand() + " " + initialNormalize.getExponent());
-        System.out.println(" " + initialNormalize.getSecondOperand() + " " + initialNormalize.getExponent());
+        System.out.println("  " + initialNormalize.getFirstOperand() + " x2^" + initialNormalize.getExponent());
+        System.out.println(" " + initialNormalize.getSecondOperand() + " x2^" + initialNormalize.getExponent());
 
         Operation operation = new Operation(initialNormalize.getFirstOperand(), initialNormalize.getSecondOperand(), grs, digits);
         operation.performAddition();
-        System.out.println(operation.getSum() + " " + initialNormalize.getExponent());
+        System.out.println("-------------");
+        System.out.println(" " + operation.getSum() + " x2^" + initialNormalize.getExponent());
 
         PostNormalize postNormalize = new PostNormalize(operation.getSum(), initialNormalize.getExponent(), digits);
         postNormalize.performShift();
         postNormalize.performRound();
+        System.out.println("-------------");
+        System.out.println("  " + postNormalize.getSum() + " x2^" + postNormalize.getExponent());
 
-        System.out.println(" " + postNormalize.getSum() + " " + postNormalize.getExponent());
+        /* Use @Samuel Uy's Normalization here if sum is 0.0001 and not in 10.f */
     }
 }

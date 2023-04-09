@@ -1,6 +1,8 @@
 public class InitialNormalize {
+    private boolean negativeOne;
     private String operandOne;
     private int exponentOne;
+    private boolean negativeTwo;
     private String operandTwo;
     private int exponentTwo;
     private int exponent;
@@ -8,9 +10,32 @@ public class InitialNormalize {
     private int digits;
 
     public InitialNormalize(String operandOne, int exponentOne, String operandTwo, int exponentTwo, boolean grs, int digits) {
-        this.operandOne  = operandOne;
+        if (operandOne.charAt(0) == '-') {
+            char[] operandHolder = new char[operandOne.length()];
+
+            for (int x = 0; x < operandOne.length() - 1; x++) { operandHolder[x] = operandOne.charAt(x + 1); }
+            
+            this.operandOne = String.valueOf(operandHolder);
+            this.negativeOne = true;
+        } else {
+            this.operandOne = operandOne;
+            this.negativeOne = false;
+        }
+
         this.exponentOne = exponentOne;
-        this.operandTwo  = operandTwo;
+
+        if (operandTwo.charAt(0) == '-') {
+            char[] operandHolder = new char[operandTwo.length()];
+
+            for (int x = 0; x < operandTwo.length() - 1; x++) { operandHolder[x] = operandTwo.charAt(x + 1); }
+            
+            this.operandTwo = String.valueOf(operandHolder);
+            this.negativeTwo = true;
+        } else {
+            this.operandTwo = operandTwo;
+            this.negativeTwo = false;
+        }
+
         this.exponentTwo = exponentTwo;
         this.exponent    = exponentOne;
         this.grs         = grs;
@@ -69,7 +94,7 @@ public class InitialNormalize {
 
             if (this.operandOne.length() > x) { if (this.operandOne.charAt(x) == '1') { roundedOperandOne = roundUp(roundedOperandOne); } }
 
-            if (this.operandOne.length() > x) { if (this.operandTwo.charAt(x) == '1') { roundedOperandTwo = roundUp(roundedOperandTwo); } }
+            if (this.operandTwo.length() > x) { if (this.operandTwo.charAt(x) == '1') { roundedOperandTwo = roundUp(roundedOperandTwo); } }
 
             this.operandOne = String.valueOf(roundedOperandOne);
             this.operandTwo = String.valueOf(roundedOperandTwo);
@@ -89,6 +114,28 @@ public class InitialNormalize {
 
             this.operandOne = String.valueOf(roundedOperandOne);
             this.operandTwo = String.valueOf(roundedOperandTwo);
+        }
+    }
+
+    public void performNegative(){
+        if (negativeOne){
+            char[] operandHolder = new char[operandOne.length() + 1];
+            operandHolder[0] = '-';
+
+            for (int x = 1; x < operandOne.length() + 1; x++) { operandHolder[x] = operandOne.charAt(x - 1); }
+            
+            this.operandOne = String.valueOf(operandHolder);
+            this.negativeOne = false;
+        }
+        
+        if (negativeTwo){
+            char[] operandHolder = new char[operandTwo.length() + 1];
+            operandHolder[0] = '-';
+
+            for (int x = 1; x < operandTwo.length() + 1; x++) { operandHolder[x] = operandTwo.charAt(x - 1); }
+            
+            this.operandTwo = String.valueOf(operandHolder);
+            this.negativeOne = false;
         }
     }
 
