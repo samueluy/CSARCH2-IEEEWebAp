@@ -6,48 +6,34 @@ public class Operation {
     private boolean overflow;
     private boolean signed;
 
-    public Operation(StringBuilder firstOperand, StringBuilder secondOperand, int digits) {
+    public Operation(StringBuilder firstOperand, StringBuilder secondOperand, boolean grs, int digits) {
         this.firstOperand   = firstOperand.toString();
         this.secondOperand  = secondOperand.toString();
-        this.digits         = digits + 1;                   // binary digits + dot
-        this.sum            = new char[this.digits + 1];    // (binary digits + dot) + overflow
+
+        if (!grs) { this.digits = digits + 1; }
+        else { this.digits      = (digits + 3) + 1; }
+        
+        this.sum            = new char[this.digits + 1]; 
         this.overflow       = false;
         this.signed         = false;
 
         for (int x = 0; x < this.digits + 1; x++) { this.sum[x] = ' '; }
     }
 
-    public Operation(String firstOperand, String secondOperand, int digits) {
+    public Operation(String firstOperand, String secondOperand, boolean grs, int digits) {
         this.firstOperand   = firstOperand;
         this.secondOperand  = secondOperand;
-        this.digits         = digits + 1;                   // binary digits + dot
-        this.sum            = new char[this.digits + 1];    // (binary digits + dot) + overflow
+        
+        if (!grs) { this.digits = digits + 1; }
+        else { this.digits      = (digits + 3) + 1; }
+        
+        this.sum            = new char[this.digits + 1]; 
         this.overflow       = false;
         this.signed         = false;
 
         for (int x = 0; x < this.digits + 1; x++) { this.sum[x] = ' '; }
     }
-
-    public char[] performComplement(String negative) {
-        char[] positive  = new char[this.digits];
-        boolean firstOne = false;
-
-        for (int x = 0; x < this.digits; x++) { positive[x] = ' '; }
-
-        for (int x = this.digits - 1; x >= 0; x--) {
-            if (negative.charAt(x + 1) == '1' && !firstOne) {
-                positive[x] = '1';
-                firstOne = true;
-            } 
-            else if (negative.charAt(x + 1) == '0' && !firstOne) { positive[x] = '0'; } 
-            else if (negative.charAt(x + 1) == '1' && firstOne) { positive[x] = '0'; } 
-            else if (negative.charAt(x + 1) == '0' && firstOne) { positive[x] = '1'; } 
-            else { positive[x] = '.'; }
-        }
-
-        return positive;
-    }
-
+    
     public void performAddition() {
         if (this.firstOperand.charAt(0) == '-') {
             this.firstOperand = String.valueOf(performComplement(this.firstOperand));
@@ -86,17 +72,23 @@ public class Operation {
 
     public char[] getSum(){ return this.sum; }
 
-    public static void main(String[] args) {
-        Operation operationW = new Operation("1.0100", "0.0101", 5);                // Without GRS
-        operationW.performAddition();
-        System.out.println(operationW.getSum());
+    private char[] performComplement(String negative) {
+        char[] positive  = new char[this.digits];
+        boolean firstOne = false;
 
-        Operation operationGRS = new Operation("1.011111001", "0.010011111", 10);   // With GRS, add 3 digits for GRS
-        operationGRS.performAddition();
-        System.out.println(operationGRS.getSum());
+        for (int x = 0; x < this.digits; x++) { positive[x] = ' '; }
 
-        Operation operationN = new Operation("1.000", "-0.111", 4);                 // Negative, needs more checking
-        operationN.performAddition();
-        System.out.println(operationN.getSum());
+        for (int x = this.digits - 1; x >= 0; x--) {
+            if (negative.charAt(x + 1) == '1' && !firstOne) {
+                positive[x] = '1';
+                firstOne = true;
+            } 
+            else if (negative.charAt(x + 1) == '0' && !firstOne) { positive[x] = '0'; } 
+            else if (negative.charAt(x + 1) == '1' && firstOne) { positive[x] = '0'; } 
+            else if (negative.charAt(x + 1) == '0' && firstOne) { positive[x] = '1'; } 
+            else { positive[x] = '.'; }
+        }
+
+        return positive;
     }
 }

@@ -12,10 +12,10 @@ public class InitialNormalize {
         this.operandTwo  = operandTwo;
         this.exponentTwo = exponentTwo;
         this.grs         = grs;
-        this.digits      = digits;
+        this.digits      = digits + 1;
     }
 
-    public void shift() {
+    public void performShift() {
         if (this.exponentOne > this.exponentTwo) {
             char[] normalizedOperand = new char[this.operandTwo.length() + (this.exponentOne - this.exponentTwo)];
             int z = 0;
@@ -51,15 +51,16 @@ public class InitialNormalize {
         }
     }
 
-    public void round() {
+    public void performRound() {
         if (!this.grs) {
-            char[] roundedOperandOne = new char[this.digits + 1];
-            char[] roundedOperandTwo = new char[this.digits + 1];
+            char[] roundedOperandOne = new char[this.digits];
+            char[] roundedOperandTwo = new char[this.digits];
             int x = 0;
 
-            for (x = 0; x < digits + 1; x++) {
+            while (x < this.digits) {
                 roundedOperandOne[x] = this.operandOne.charAt(x);
                 roundedOperandTwo[x] = this.operandTwo.charAt(x);
+                x++;
             }
 
             if (this.operandOne.charAt(x) != '\0') { if (this.operandOne.charAt(x) == '1') { roundedOperandOne = roundUp(roundedOperandOne); } }
@@ -69,13 +70,32 @@ public class InitialNormalize {
             this.operandOne = String.valueOf(roundedOperandOne);
             this.operandTwo = String.valueOf(roundedOperandTwo);
         } else {
+            char[] roundedOperandOne = new char[(this.digits + 3)];
+            char[] roundedOperandTwo = new char[(this.digits + 3)];
+            int x = 0;
+
+            while(x < this.digits + 2) {
+                roundedOperandOne[x] = this.operandOne.charAt(x);
+                roundedOperandTwo[x] = this.operandTwo.charAt(x);
+                x++;
+            }
+            
+            roundedOperandOne[x] = nonZero(this.operandOne);
+            roundedOperandTwo[x] = nonZero(this.operandTwo);
+
+            this.operandOne = String.valueOf(roundedOperandOne);
+            this.operandTwo = String.valueOf(roundedOperandTwo);
         }
     }
+
+    public String getFirstOperand() { return this.operandOne; }
+
+    public String getSecondOperand() { return this.operandTwo; }
 
     private char[] roundUp(char[] roundedOperand) {
         boolean overflow = true;
 
-        for (int x = this.digits; x > 0 && overflow; x--) {
+        for (int x = this.digits - 1; x > 0 && overflow; x--) {
             if (roundedOperand[x] == '1' && overflow) { roundedOperand[x] = '0'; } 
             else if (roundedOperand[x] == '0' && overflow){
                 roundedOperand[x] = '1';
@@ -86,19 +106,13 @@ public class InitialNormalize {
         return roundedOperand;
     }
 
-    public String getFirstOperand() { return this.operandOne; }
+    private char nonZero(String operand) {
+        boolean nonZero = true;
 
-    public String getSecondOperand() { return this.operandTwo; }
+        for (int x = (this.digits + 2); x < operand.length() && nonZero; x++) { if (operand.charAt(x) == '1') { nonZero = false; } }
 
-    public static void main(String[] args) {
-        InitialNormalize initialNormalize = new InitialNormalize("1.00111101", 5, "1.00111101", 3, false, 5);
+        if (nonZero == false) { return '1'; }
 
-        initialNormalize.shift();
-        System.out.println(initialNormalize.getFirstOperand());
-        System.out.println(initialNormalize.getSecondOperand());
-
-        initialNormalize.round();
-        System.out.println(initialNormalize.getFirstOperand());
-        System.out.println(initialNormalize.getSecondOperand());
+        return '0';
     }
 }
