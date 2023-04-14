@@ -1,24 +1,15 @@
-import java.util.Scanner;
-
-public class Main{
-
+public class Normalize{
         private String binInput = "";
         private int binExponent = 0;
-        private String base2Input = "";
-        private int base2Exponent = 0;
-        private int digitsSupported = 0;
-
-        private void askForInput(){
-                Scanner input = new Scanner(System.in);
-                setBinInput(input.next()); // binary input
-                setBinExponent(input.nextInt()); // x2 ^ ? of binary input
-                setBase2Input(input.next()); // base-2 input
-                setBase2Exponent(input.nextInt()); // x2 ^ ? of base-2 input
-                // add input for GRS or rounding
-                setDigitsSupported(input.nextInt()); // number of digits supported
+        public Normalize(Operand operand){
+                this.binInput = operand.binary;
+                this.binExponent = operand.exponent;
         }
 
-        public void normalize(String binary, int binExponent, int numOfDigits){
+        public void normalize(){
+                String binary = getBinInput();
+                int exponent = getBinExponent();
+
                 StringBuilder newBinary = new StringBuilder(binary);
                 int radixLoc;
                 int oneLoc;
@@ -46,12 +37,9 @@ public class Main{
 
                         // modify exponent value
                         if(radixLoc < oneLoc)
-                                binExponent = binExponent+(oneLoc-radixLoc);
+                                exponent = exponent+(oneLoc-radixLoc);
                         else if (oneLoc < radixLoc)
-                                binExponent = binExponent-((radixLoc-1)-oneLoc);
-
-                        // delete
-                        System.out.println(newBinary + " " + binExponent);
+                                exponent = exponent-((radixLoc-1)-oneLoc);
                 }
                 else{
                         // generate new string
@@ -68,18 +56,21 @@ public class Main{
 
                         // modify exponent value
                         if(radixLoc < oneLoc)
-                                binExponent = binExponent+(oneLoc-radixLoc);
+                                exponent = exponent+(oneLoc-radixLoc);
                         else if (oneLoc < radixLoc)
-                                binExponent = binExponent-((radixLoc-1)-oneLoc);
-
-                        // delete
-                        System.out.println(newBinary + " " + binExponent);
+                                exponent = exponent-((radixLoc-1)-oneLoc);
                 }
 
+                setBinInput(newBinary.toString());
+                setBinExponent(exponent);
         }
 
-        public static void main(String[] args){
+        public String getBinInput() {
+                return binInput;
+        }
 
+        public int getBinExponent() {
+                return binExponent;
         }
 
         public void setBinInput(String binInput) {
@@ -88,18 +79,6 @@ public class Main{
 
         public void setBinExponent(int binExponent) {
                 this.binExponent = binExponent;
-        }
-
-        public void setBase2Input(String base2Input) {
-                this.base2Input = base2Input;
-        }
-
-        public void setBase2Exponent(int base2Exponent) {
-                this.base2Exponent = base2Exponent;
-        }
-
-        public void setDigitsSupported(int digitsSupported) {
-                this.digitsSupported = digitsSupported;
         }
 }
 

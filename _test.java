@@ -1,7 +1,13 @@
 public class _test {
     public static void main(String[] args){
-        String operandOne = "1.000";    int exponentOne = -1;
-        String operandTwo = "-1.110";   int exponentTwo = -2;
+        Operand first = new Operand("110111.11011111", 10);
+        Operand second = new Operand("111111.0100101", 8);
+        Normalize firstNormalize = new Normalize(first);
+        Normalize secondNormalize = new Normalize(second);
+        firstNormalize.normalize();
+        secondNormalize.normalize();
+        String operandOne = firstNormalize.getBinInput();    int exponentOne = firstNormalize.getBinExponent();
+        String operandTwo = secondNormalize.getBinInput();   int exponentTwo = secondNormalize.getBinExponent();
         boolean grs = false;            int digits = 4;
 
         /* Use @Samuel Uy's Normalization here if operands are crazy like 1000.1111 and not in 1.f */

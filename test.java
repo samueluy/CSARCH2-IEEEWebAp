@@ -3,7 +3,8 @@
 public class test {
     public static void main(String[] args){
 
-        Main Main = new Main();
-        Main.normalize("-0.11010", 5, 7);
+        Operand operand = new Operand("110111.11011111", 10);
+        Normalize Main = new Normalize(operand);
+        Main.normalize();
     }
 }
