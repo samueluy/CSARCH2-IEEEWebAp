@@ -1,7 +1,7 @@
 public class _test {
     public static void main(String[] args){
-        Operand first = new Operand("1.00111101", 5);
-        Operand second = new Operand("1.00111101", 3);
+        Operand first = new Operand("000.11011111011111", 10);
+        Operand second = new Operand("000.1111110100101", 8);
 
 
         // Print Given
@@ -18,7 +18,7 @@ public class _test {
         secondNormalize.normalize();
         String operandOne = firstNormalize.getBinInput();    int exponentOne = firstNormalize.getBinExponent();
         String operandTwo = secondNormalize.getBinInput();   int exponentTwo = secondNormalize.getBinExponent();
-        boolean grs = true;            int digits = 5;
+        boolean grs = true;            int digits = 7; // number of bits
 
         /* Use @Samuel Uy's Normalization here if operands are crazy like 1000.1111 and not in 1.f */
         InitialNormalize initialNormalize = new InitialNormalize(operandOne, exponentOne, operandTwo, exponentTwo, grs, digits);

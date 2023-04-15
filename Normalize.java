@@ -56,9 +56,9 @@ public class Normalize{
 
                         // modify exponent value
                         if(radixLoc < oneLoc)
-                                exponent = exponent+(oneLoc-radixLoc);
+                                exponent = exponent-(oneLoc-radixLoc);
                         else if (oneLoc < radixLoc)
-                                exponent = exponent-((radixLoc-1)-oneLoc);
+                                exponent = exponent+((radixLoc-1)-oneLoc);
                 }
 
                 setBinInput(newBinary.toString());
