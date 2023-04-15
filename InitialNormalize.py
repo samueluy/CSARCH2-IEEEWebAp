@@ -95,10 +95,10 @@ class InitialNormalize(object) :
                     x += 1
 
             if (len(self.operandOne) > x) :
-                if (self.operandOne[x] == '1') :
+                if (self.operandOne[x - 1] == '1') :
                     roundedOperandOne = self.roundUp(roundedOperandOne)
             if (len(self.operandTwo) > x) :
-                if (self.operandTwo[x] == '1') :
+                if (self.operandTwo[x - 1] == '1') :
                     roundedOperandTwo = self.roundUp(roundedOperandTwo)
             self.operandOne = "".join(roundedOperandOne)
             self.operandTwo = "".join(roundedOperandTwo)
