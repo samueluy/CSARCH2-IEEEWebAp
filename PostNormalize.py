@@ -9,7 +9,7 @@ class PostNormalize:
         self.digits = digits + 1
 
     def perform_shift(self):
-        if self.sum[1] != ".":
+        if len(self.sum) > 1 and self.sum[1] != ".":
             normalized_sum = [""] * len(self.sum)
             y = 0
             for x in range(len(self.sum)):

@@ -15,7 +15,7 @@ class InitialNormalize:
             operandHolder = [0] * len(operandTwo)
             for x in range(len(operandTwo) - 1):
                 operandHolder[x] = operandTwo[x + 1]
-            self.operandTwo = ''.join(operandHolder)
+            self.operandTwo = ''.join(str(operand) for operand in operandHolder)
             self.negativeTwo = True
         else:
             self.operandTwo = operandTwo
@@ -68,9 +68,14 @@ class InitialNormalize:
             x = 0
 
             while x < self.digits:
-                roundedOperandOne[x] = self.operandOne[x]
-                roundedOperandTwo[x] = self.operandTwo[x]
-                x += 1
+                try:
+                    roundedOperandOne[x] = self.operandOne[x]
+                    roundedOperandTwo[x] = self.operandTwo[x]
+                    x += 1
+                except: # filler digits
+                    roundedOperandOne+='0'
+                    roundedOperandTwo+='0'
+                    x += 1
 
             if len(self.operandOne) > x:
                 if self.operandOne[x] == '1':
@@ -88,9 +93,14 @@ class InitialNormalize:
             x = 0
 
             while x < self.digits + 2:
-                roundedOperandOne[x] = self.operandOne[x]
-                roundedOperandTwo[x] = self.operandTwo[x]
-                x += 1
+                try:
+                    roundedOperandOne[x] = self.operandOne[x]
+                    roundedOperandTwo[x] = self.operandTwo[x]
+                    x += 1
+                except: # filler digits
+                    roundedOperandOne+='0'
+                    roundedOperandTwo+='0'
+                    x += 1
             
             roundedOperandOne[x] = self.nonZero(self.operandOne)
             roundedOperandTwo[x] = self.nonZero(self.operandTwo)
