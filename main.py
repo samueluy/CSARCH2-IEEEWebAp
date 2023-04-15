@@ -77,8 +77,8 @@ def main():
     st.write("  " + str(post_normalize.get_sum()) + " x2^" + str(post_normalize.get_exponent()))
 
     text_output = '─' * 25 + '\n' + "Given:\n" + str(operand_one_input) + " 2x^" + str(operand_one_exponent) + '\n' + str(operand_two_input) + " 2x^" + str(operand_two_exponent) + '\n' + '─' * 25 + '\n' + "Normalized\n" + str(operand_one) + " 2x^" + str(exponent_one) + '\n' + str(operand_two) + " 2x^" + str(exponent_two) + '\n' + '─' * 25 + '\n' + \
-        "Initial Normalize:\n" + "  " + str(op1) + " x2^" + str(exp) + '\n' + " " + str(op2) + " x2^" + str(exp) + '\n' + '─' * 25 + '\n' + "Operation sum:\n" + " " + str(
-            operation.get_sum()) + " x2^" + str(exp) + '\n' + '─' * 25 + '\n' + "Post Operation:\n" + "  " + str(post_normalize.get_sum()) + " x2^" + str(post_normalize.get_exponent()) + '\n'
+        "Initial Normalize:\n" + str(op1) + " x2^" + str(exp) + '\n' + str(op2) + " x2^" + str(exp) + '\n' + '─' * 25 + '\n' + "Operation sum:\n" + str(
+            operation.get_sum()) + " x2^" + str(exp) + '\n' + '─' * 25 + '\n' + "Post Operation:\n" + str(post_normalize.get_sum()) + " x2^" + str(post_normalize.get_exponent()) + '\n'
 
     st.download_button('Download output', text_output) 
 
