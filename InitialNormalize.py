@@ -84,6 +84,8 @@ class InitialNormalize(object) :
             roundedOperandOne = [' '] * (self.digits)
             roundedOperandTwo = [' '] * (self.digits)
             x = 0
+            evenOne = False
+            evenTwo = False
             while (x < self.digits) :
                 try:
                     roundedOperandOne[x] = self.operandOne[x]
@@ -95,11 +97,31 @@ class InitialNormalize(object) :
                     x += 1
 
             if (len(self.operandOne) > x) :
-                if (self.operandOne[x - 1] == '1') :
-                    roundedOperandOne = self.roundUp(roundedOperandOne)
+                if (self.operandOne[x] == '1') :
+                    for y in range(x + 1 , len(self.operandOne), 1):
+                        if (self.operandOne[y] == '1') :
+                            roundedOperandOne = self.roundUp(roundedOperandOne)
+                            evenOne = False
+                            break
+                        else:
+                            evenOne = True
+                    
+                    if (self.operandOne[x - 1] == '1' and evenOne) :
+                        roundedOperandOne = self.roundUp(roundedOperandOne)
+                        
             if (len(self.operandTwo) > x) :
-                if (self.operandTwo[x - 1] == '1') :
-                    roundedOperandTwo = self.roundUp(roundedOperandTwo)
+                if (self.operandTwo[x] == '1') :
+                    for y in range(x + 1, len(self.operandTwo), 1):
+                        if (self.operandTwo[y] == '1') :
+                            roundedOperandTwo = self.roundUp(roundedOperandTwo)
+                            evenTwo = False
+                            break
+                        else:
+                            evenTwo = True
+                            
+                    if (self.operandTwo[x - 1] == '1' and evenTwo) :
+                        roundedOperandTwo = self.roundUp(roundedOperandTwo)
+                    
             self.operandOne = "".join(roundedOperandOne)
             self.operandTwo = "".join(roundedOperandTwo)
         else :

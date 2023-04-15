@@ -29,12 +29,23 @@ class PostNormalize:
     def perform_round(self):
         rounded_sum = [""] * self.digits
         x = 0
+        even = False
         while x < self.digits:
             rounded_sum[x] = self.sum[x]
             x += 1
         if len(self.sum) > x:
-            if self.sum[x - 1] == "1":
-                rounded_sum = self.round_up(rounded_sum)
+            if self.sum[x] == '1':
+                for y in range(x + 1, len(self.sum), 1):
+                    if(self.sum[y] == '1'):
+                        rounded_sum = self.round_up(rounded_sum)
+                        even = False
+                        break
+                    else:
+                        even = True
+                        
+                if(self.sum[x - 1] == '1' and even):
+                    rounded_sum = self.round_up(rounded_sum)
+            
         self.sum = "".join(rounded_sum)
 
     def get_sum(self):
