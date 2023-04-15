@@ -33,7 +33,7 @@ class PostNormalize:
             rounded_sum[x] = self.sum[x]
             x += 1
         if len(self.sum) > x:
-            if self.sum[x] == "1":
+            if self.sum[x - 1] == "1":
                 rounded_sum = self.round_up(rounded_sum)
         self.sum = "".join(rounded_sum)
 
