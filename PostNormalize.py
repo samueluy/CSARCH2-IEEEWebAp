@@ -1,3 +1,5 @@
+from Normalize import Normalize
+from Operand import Operand
 class PostNormalize:
     def __init__(self, sum_, exponent, digits):
         if sum_[0] == " ":
@@ -50,3 +52,29 @@ class PostNormalize:
                 rounded_sum[x] = "1"
                 overflow = False
         return rounded_sum
+    
+    def check_normalize(self):
+        operand = Operand(self.sum, self.exponent)
+        if self.sum[0] != '-':
+            if self.sum[0] != '1':
+                output = Normalize(operand)
+                output.normalize()
+                output.setBinInput(append_filler(output.getBinInput(), self.digits))
+                self.sum = output.getBinInput()
+                self.exponent = output.getBinExponent()
+                return output.getBinInput()
+        else: # if negative
+            if self.sum[1] != '1':
+                output = Normalize(operand)
+                output.normalize()
+                output.setBinInput(append_filler(output.getBinInput(), self.digits))
+                self.sum = output.getBinInput()
+                self.digits = output.getBinExponent()
+                return output.getBinInput()
+
+        return self.sum
+    
+def append_filler(bin, digits):
+    while len(bin) < digits:
+        bin += '0'
+    return bin

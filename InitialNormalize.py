@@ -1,4 +1,3 @@
-# Java to Python by kalkicode.com
 class InitialNormalize(object) :
     negativeOne = False
     operandOne = None
@@ -86,9 +85,15 @@ class InitialNormalize(object) :
             roundedOperandTwo = [' '] * (self.digits)
             x = 0
             while (x < self.digits) :
-                roundedOperandOne[x] = self.operandOne[x]
-                roundedOperandTwo[x] = self.operandTwo[x]
-                x += 1
+                try:
+                    roundedOperandOne[x] = self.operandOne[x]
+                    roundedOperandTwo[x] = self.operandTwo[x]
+                    x += 1
+                except: # filler digits
+                    roundedOperandOne+='0'
+                    roundedOperandTwo+='0'
+                    x += 1
+
             if (len(self.operandOne) > x) :
                 if (self.operandOne[x] == '1') :
                     roundedOperandOne = self.roundUp(roundedOperandOne)
@@ -102,9 +107,14 @@ class InitialNormalize(object) :
             roundedOperandTwo = [' '] * ((self.digits + 3))
             x = 0
             while (x < self.digits + 2) :
-                roundedOperandOne[x] = self.operandOne[x]
-                roundedOperandTwo[x] = self.operandTwo[x]
-                x += 1
+                try:
+                    roundedOperandOne[x] = self.operandOne[x]
+                    roundedOperandTwo[x] = self.operandTwo[x]
+                    x += 1
+                except: # filler digits
+                    roundedOperandOne+='0'
+                    roundedOperandTwo+='0'
+                    x += 1
             roundedOperandOne[x] = self.nonZero(self.operandOne)
             roundedOperandTwo[x] = self.nonZero(self.operandTwo)
             self.operandOne = "".join(roundedOperandOne)

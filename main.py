@@ -79,6 +79,7 @@ def main():
 
         post_normalize.perform_shift()
         post_normalize.perform_round()
+        post_normalize.check_normalize()
 
         st.write('─' * 25)
         st.write("**Post Operation:**")

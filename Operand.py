@@ -18,4 +18,6 @@ class Operand:
             minus_sign = self.binary.count('-')
             if minus_sign != 1:
                 return False
+            if minus_sign == 1 and self.binary[0] != '-':
+                return False
         return True
